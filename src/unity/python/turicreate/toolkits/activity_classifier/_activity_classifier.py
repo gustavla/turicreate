@@ -141,7 +141,7 @@ def create(dataset, session_id, target, features=None, prediction_window=100,
         raise _ToolkitError('session_id must be of type str')
     _tkutl._raise_error_if_sframe_empty(dataset, 'dataset')
     _tkutl._numeric_param_check_range('prediction_window', prediction_window, 1, 400)
-    _tkutl._numeric_param_check_range('max_iterations', max_iterations, 0, _sys.maxint)
+    _tkutl._numeric_param_check_range('max_iterations', max_iterations, 0, 1 << 32)
 
     if features is None:
         features = _fe_tkutl.get_column_names(dataset,
@@ -164,8 +164,10 @@ def create(dataset, session_id, target, features=None, prediction_window=100,
     dataset, target_map = _encode_target(dataset, target)
 
     predictions_in_chunk = 20
+    print(dataset)
     chunked_data, num_sessions = _prep_data(dataset, features, session_id, prediction_window,
                                             predictions_in_chunk, target=target, verbose=verbose)
+    print('NUM_SESSIONS', num_sessions)
 
     if isinstance(validation_set, str) and validation_set == 'auto':
         if num_sessions < 100:
@@ -273,6 +275,7 @@ class ActivityClassifier(_CustomModel):
         if (version > cls._PYTHON_ACTIVITY_CLASSIFIER_VERSION):
             raise RuntimeError("Corrupted model. Cannot load a model with this version.")
 
+        state = _tkutl._state_str_conversion(state)
         data_seq_len = state['prediction_window'] * state['_predictions_in_chunk']
         data = {'data': (state['_recalibrated_batch_size'], data_seq_len, len(state['features']))}
         labels = [

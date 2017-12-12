@@ -360,6 +360,7 @@ class DBSCANModel(_CustomModel):
         version : int
             Version number maintained by the class writer.
         """
+        state = _tkutl._state_str_conversion(state)
         state = _PythonProxy(state)
         return DBSCANModel(state)
 

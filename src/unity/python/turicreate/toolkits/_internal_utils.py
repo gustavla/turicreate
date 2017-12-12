@@ -540,3 +540,27 @@ def _mac_ver():
         return tuple([int(v) for v in ver_str.split('.')])
     else:
         return None
+
+if _six.PY3:
+    def _state_str_conversion(data):
+        if isinstance(data, dict):
+            new_dict = {}
+            for k, v in data.items():
+                if isinstance(k, bytes):
+                    new_k = k.decode('utf-8')
+                else:
+                    new_k = k
+                new_dict[new_k] = _state_str_conversion(v)
+            return new_dict
+        elif isinstance(data, bytes):
+            return data.decode('utf-8')
+        elif isinstance(data, (list, tuple)):
+            new_list = []
+            for l in data:
+                new_list.append(_state_str_conversion(l))
+            return data.__class__(new_list)
+        else:
+            return data
+else:
+    def _state_str_conversion(data):
+        return data

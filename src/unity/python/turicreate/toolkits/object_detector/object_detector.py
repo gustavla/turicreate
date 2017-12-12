@@ -9,7 +9,6 @@ Class definition and utilities for the object detection toolkit.
 from __future__ import print_function as _
 from __future__ import division as _
 from __future__ import absolute_import as _
-import sys as _sys
 import time as _time
 import itertools as _itertools
 from datetime import datetime as _datetime
@@ -149,7 +148,7 @@ def create(dataset, annotations=None, feature=None, model='darknet-yolo',
     if len(dataset) == 0:
         raise _ToolkitError('Unable to train on empty dataset')
 
-    _numeric_param_check_range('max_iterations', max_iterations, 0, _sys.maxint)
+    _numeric_param_check_range('max_iterations', max_iterations, 0, 1 << 32)
     start_time = _time.time()
 
     supported_detectors = ['darknet-yolo']
@@ -415,6 +414,7 @@ class ObjectDetector(_CustomModel):
         if (version > cls._PYTHON_OBJECT_DETECTOR_VERSION):
             raise RuntimeError("Corrupted model. Cannot load a model with this version.")
 
+        state = _tkutl._state_str_conversion(state)
         num_anchors = len(state['anchors'])
         num_classes = state['num_classes']
         output_size = (num_classes + 5) * num_anchors

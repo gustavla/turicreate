@@ -32,7 +32,7 @@ def prep_data(data, features, session_id, prediction_window, predictions_in_chun
         result_dict = _extensions._activity_classifier_prepare_data(
             data, features, session_id, prediction_window, predictions_in_chunk, target)
 
-
+    print(result_dict)
     return result_dict["converted_data"] , result_dict["num_of_sessions"]
 
 

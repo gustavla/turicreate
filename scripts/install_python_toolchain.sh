@@ -3,7 +3,7 @@
 set -x
 set -e
 
-virtualenv ${PWD}/deps/env
+virtualenv --python=/usr/local/bin/python3 ${PWD}/deps/env
 source ${PWD}/deps/env/bin/activate
 
 python_scripts=deps/env/bin
@@ -71,7 +71,9 @@ if [[ $haspython == 0 ]]; then
         fi
 fi
 if [[ $OSTYPE == darwin* ]]; then
+        echo "Install pip requirement!"
         $python_scripts/pip install -r scripts/pip_mac_requirements.txt
+        $python_scripts/pip freeze
 else
         # Need pip>=8.1 to support linux manywheel so that scikit-learn will install without error
         $python_scripts/pip install --upgrade "pip>=8.1"

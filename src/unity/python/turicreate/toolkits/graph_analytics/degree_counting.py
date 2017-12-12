@@ -8,6 +8,7 @@ from __future__ import division as _
 from __future__ import absolute_import as _
 from turicreate.data_structures.sgraph import SGraph as _SGraph
 import turicreate.toolkits._main as _main
+import turicreate.toolkits._internal_utils as _tkutl
 from turicreate.toolkits.graph_analytics._model_base import GraphAnalyticsModel as _ModelBase
 
 
@@ -51,6 +52,7 @@ class DegreeCountingModel(_ModelBase):
     @classmethod
     def _load_version(cls, state, version):
         assert(version == 0)
+        state = _tkutl._state_str_conversion(state)
         return cls(state['model'])
 
 def create(graph, verbose=True):

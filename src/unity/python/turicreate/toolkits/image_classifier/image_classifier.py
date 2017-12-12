@@ -188,6 +188,7 @@ class ImageClassifier(_CustomModel):
         instance.
         """
         from turicreate.toolkits.classifier.logistic_classifier import LogisticClassifier
+        state = _tkutl._state_str_conversion(state)
         state['classifier'] = LogisticClassifier(state['classifier'])
         state['classes'] = state['classifier'].classes
 

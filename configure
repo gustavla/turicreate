@@ -33,6 +33,7 @@ function print_help {
   echo
   echo "  --python3                         Use Python 3.4, default is Python 2.7."
   echo "  --python3.5                       Use Python 3.5, default is Python 2.7."
+  echo "  --python3.6                       Use Python 3.6, default is Python 2.7."
   echo 
   echo "  --yes                             Defaults to yes on a prompt"
   echo
@@ -102,6 +103,7 @@ with_visualization=1
 
 python3=0
 python35=0
+python36=0
 
 ###############################################################################
 #
@@ -129,6 +131,7 @@ while [ $# -gt 0 ]
 
     --python3)              python3=1;;
     --python3.5)            python35=1;;
+    --python3.6)            python36=1;;
     
     --help)                 print_help ;;
 
@@ -144,7 +147,12 @@ if [[ $cleanup_option == 1 ]]; then
 fi
 
 
-if [[ $python35 == 1 && $python3 ]]; then
+if [[ $python35 == 1 && $python3 == 1 ]]; then
+  echo "Two version of Python specified. Pick one."
+  exit 1
+fi
+
+if [[ $python36 == 1 && $python3 == 1 ]]; then
   echo "Two version of Python specified. Pick one."
   exit 1
 fi
@@ -156,6 +164,9 @@ if [[ $python3 == 1 ]]; then
 elif [[ $python35 == 1 ]]; then
   CMAKE_CONFIG_FLAGS="${CMAKE_CONFIG_FLAGS} -DPYTHON_VERSION=\"python3.5m\""
   PYTHON_VERSION="python3.5m"
+elif [[ $python36 == 1 ]]; then
+  CMAKE_CONFIG_FLAGS="${CMAKE_CONFIG_FLAGS} -DPYTHON_VERSION=\"python3.6m\""
+  PYTHON_VERSION="python3.6m"
 else
   CMAKE_CONFIG_FLAGS="${CMAKE_CONFIG_FLAGS} -DPYTHON_VERSION=\"python2.7\""
   PYTHON_VERSION="python2.7"

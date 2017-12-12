@@ -12,6 +12,7 @@ import os as _os
 from turicreate.toolkits._model import CustomModel as _CustomModel
 from turicreate.toolkits._model import PythonProxy as _PythonProxy
 from turicreate.toolkits._internal_utils import _toolkit_repr_print
+from turicreate.toolkits import _internal_utils as _tkutl
 import operator as _operator
 import turicreate as _turicreate
 import logging as _logging
@@ -142,6 +143,7 @@ class SentenceClassifier(_CustomModel):
     @classmethod
     def _load_version(self, state, version):
         from turicreate.toolkits.classifier.logistic_classifier import LogisticClassifier
+        state = _tkutl._state_str_conversion(state)
         state['classifier'] = LogisticClassifier(state['classifier'])
         state = _PythonProxy(state)
         return SentenceClassifier(state)

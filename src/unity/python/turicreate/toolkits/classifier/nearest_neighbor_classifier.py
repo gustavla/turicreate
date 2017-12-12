@@ -17,6 +17,7 @@ import logging as _logging
 import turicreate as _tc
 from turicreate.toolkits._model import CustomModel as _CustomModel
 
+from turicreate.toolkits import _internal_utils as _tkutl
 from turicreate.toolkits._internal_utils import _toolkit_repr_print
 from turicreate.toolkits._internal_utils import _raise_error_if_sframe_empty
 from turicreate.toolkits._internal_utils import _raise_error_if_not_sframe
@@ -363,6 +364,7 @@ class NearestNeighborClassifier(_CustomModel):
             Version number maintained by the class writer.
         """
         assert(version == cls._PYTHON_NN_CLASSIFIER_MODEL_VERSION)
+        state = _tkutl._state_str_conversion(state)
         knn_model = _tc.nearest_neighbors.NearestNeighborsModel(state['knn_model'])
         del state['knn_model']
         state['_target_type'] = eval(state['_target_type'])

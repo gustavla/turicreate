@@ -125,18 +125,6 @@ _sys.modules["turicreate.extensions"] = _extensions_wrapper(_sys.modules["turicr
 # rewrite the import
 extensions = _sys.modules["turicreate.extensions"]
 
-try:
-    import mxnet as _mx
-    if _mx.__version__ != '0.11.0':
-        print('WARNING: Currently only mxnet version 0.11.0 is officially supported.')
-        print('         You are using version', _mx.__version__, 'which may result in breaking behavior,')
-        print('         especially during saving and loading models. To fix this, please run:')
-        print()
-        print('             pip uninstall -y mxnet && pip install mxnet==0.11.0')
-        print()
-except (ImportError, OSError):
-    pass
-
 from .visualization import show
 
 _launch()

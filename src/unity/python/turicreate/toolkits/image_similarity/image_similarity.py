@@ -191,6 +191,7 @@ class ImageSimilarityModel(_CustomModel):
         version : int
             Version number maintained by the class writer.
         """
+        _tkutl._model_version_check(version, cls._PYTHON_IMAGE_SIMILARITY_VERSION)
         from turicreate.toolkits.nearest_neighbors import NearestNeighborsModel
         state['similarity_model'] = NearestNeighborsModel(state['similarity_model'])
         # Load pre-trained model & feature extractor

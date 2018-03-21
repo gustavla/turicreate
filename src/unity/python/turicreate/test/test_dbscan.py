@@ -266,7 +266,7 @@ class ModelMethodsTest(unittest.TestCase):
 
     def setUp(self):
         np.random.seed(29)
-        sf = tc.SFrame(np.random.rand(30, 2))
+        sf = tc.SFrame(np.random.rand(30, 2).tolist())
         self.min_core_neighbors = 3
         self.radius = 0.3
         self.distance = [[['X1'], "euclidean", 1]]
@@ -371,7 +371,7 @@ class ResultsTest(unittest.TestCase):
     def setUpClass(self):
         np.random.seed(37)
         self.n = 30
-        self.sf = tc.SFrame(np.random.rand(self.n, 2))
+        self.sf = tc.SFrame(np.random.rand(self.n, 2).tolist())
 
     def test_extreme_neighborhoods(self):
         """

@@ -54,7 +54,7 @@ class NearestNeighborsCreateTest(unittest.TestCase):
 
         self.refs = tc.SFrame()
         for i in range(d):
-            self.refs['X{}'.format(i+1)] = tc.SArray(np.random.rand(n))
+            self.refs['X{}'.format(i+1)] = tc.SArray(np.random.rand(n).tolist())
 
         self.label = 'label'
         self.refs[self.label] = [str(x) for x in range(n)]
@@ -646,7 +646,7 @@ class NearestNeighborsBruteForceAPITest(unittest.TestCase):
 
         self.refs = tc.SFrame()
         for i in range(d):
-            self.refs.add_column(tc.SArray(np.random.rand(n)), inplace=True)
+            self.refs.add_column(tc.SArray(np.random.rand(n).tolist()), inplace=True)
 
         self.refs['row_label'] = [str(x) for x in range(n)]
 
@@ -1071,7 +1071,7 @@ class GeneralSimilarityGraphTest(unittest.TestCase):
         self.dimension = 3               # dimension
         n = 10              # number of reference points
 
-        self.refs = tc.SFrame(np.random.rand(n, self.dimension))
+        self.refs = tc.SFrame(np.random.rand(n, self.dimension).tolist())
         self.features = ['X1.{}'.format(i) for i in range(self.dimension)]
         self.refs = self.refs.unpack('X1')
 
@@ -1222,7 +1222,7 @@ class GeneralQueryTest(unittest.TestCase):
         n = 10              # number of reference points
         self.n_query = 2    # number of query points
 
-        self.refs = tc.SFrame(np.random.rand(n, p))
+        self.refs = tc.SFrame(np.random.rand(n, p).tolist())
         self.refs = self.refs.unpack('X1')
 
         self.label = 'id'
@@ -1308,7 +1308,7 @@ class NearestNeighborsNumericQueryTest(unittest.TestCase):
         n = 10              # number of reference points
         self.n_query = 2    # number of query points
 
-        self.refs = tc.SFrame(np.random.rand(n, p))
+        self.refs = tc.SFrame(np.random.rand(n, p).tolist())
         self.refs = self.refs.unpack('X1')
 
         self.label = 'id'
@@ -1443,12 +1443,12 @@ class NearestNeighborsNumericQueryTest(unittest.TestCase):
         n_query = 21  # more than 20 queries is necessary for block-wise brute force
         k = 5
 
-        sf = tc.SFrame(np.random.rand(n, d))
+        sf = tc.SFrame(np.random.rand(n, d).tolist())
 
         m = tc.nearest_neighbors.create(sf, method='brute_force',
                                 distance='euclidean', verbose=False)
 
-        sf_query = tc.SFrame(np.random.rand(n_query, d))
+        sf_query = tc.SFrame(np.random.rand(n_query, d).tolist())
 
         knn = m.query(sf_query, verbose=False)  # blockwise brute force query
         knn2 = m.query(sf_query[:10], verbose=False) # pairwise brute force query
@@ -1465,7 +1465,7 @@ class NearestNeighborsNumericQueryTest(unittest.TestCase):
         ### Blockwise similarity graph - euclidean distance
         ### -----------------------------------------------
         n, d = 500, 10
-        sf = tc.SFrame(np.random.rand(n, d))
+        sf = tc.SFrame(np.random.rand(n, d).tolist())
 
         m = tc.nearest_neighbors.create(sf, method='brute_force',
                                 distance='euclidean', verbose=False)
@@ -1508,7 +1508,7 @@ class NearestNeighborsNumericQueryTest(unittest.TestCase):
         ### Pairwise similarity graph - manhattan distance
         ### ----------------------------------------------
         n, d = 500, 10
-        sf = tc.SFrame(np.random.rand(n, d))
+        sf = tc.SFrame(np.random.rand(n, d).tolist())
 
         m = tc.nearest_neighbors.create(sf, method='brute_force',
                                 distance='manhattan', verbose=False)
@@ -1826,7 +1826,7 @@ class NearestNeighborsCompositeQueryTest(unittest.TestCase):
         reference dataset.
         """
         n, d = 30, 3
-        sf = tc.SFrame(np.random.random((n, d)))
+        sf = tc.SFrame(np.random.random((n, d)).tolist())
         sf = sf.unpack('X1', column_name_prefix='')
         sf = sf.add_row_number('id')
 

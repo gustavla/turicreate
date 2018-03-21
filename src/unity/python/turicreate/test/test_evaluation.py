@@ -1039,8 +1039,8 @@ class MetricsTest(unittest.TestCase):
         for i in range(3):
             sk_p[i] = p[:, i]
             sk_t[i] = t == i
-        targets = turicreate.SArray(t)
-        predictions = turicreate.SArray(p)
+        targets = turicreate.SArray(t.tolist())
+        predictions = turicreate.SArray(p.tolist())
         str_targets = targets.astype(str)
 
         # Act
@@ -1092,8 +1092,8 @@ class MetricsTest(unittest.TestCase):
         for i in range(3):
             sk_p[i] = p[:, i]
             sk_t[i] = t == i
-        targets = turicreate.SArray(list(t))
-        predictions = turicreate.SArray(list(p))
+        targets = turicreate.SArray(t.tolist())
+        predictions = turicreate.SArray(p.tolist())
         float_predictions = predictions.apply(lambda x: x[0])
 
         with self.assertRaises(ToolkitError):

@@ -33,9 +33,9 @@ class JSONExporterTest(unittest.TestCase):
         np.random.seed(42)
         sf = tc.SFrame()
         sf['idx'] = range(_TEST_CASE_SIZE)
-        sf['ints'] = np.random.randint(-100000, 100000, _TEST_CASE_SIZE)
+        sf['ints'] = np.random.randint(-100000, 100000, _TEST_CASE_SIZE).tolist()
         sf['strings'] = sf['ints'].astype(str)
-        sf['floats'] = np.random.random(_TEST_CASE_SIZE)
+        sf['floats'] = np.random.random(_TEST_CASE_SIZE).tolist()
 
         # TODO: nans and infs will break JSON - what should we do about this?
         #sf['nans_and_infs'] = sf['idx'].apply(lambda x: float('nan') if x > 0 else float('inf'))
@@ -49,7 +49,7 @@ class JSONExporterTest(unittest.TestCase):
     def test_array_dtype(self):
         np.random.seed(42)
         sf = tc.SFrame()
-        sf['arr'] = np.random.rand(100,3)
+        sf['arr'] = np.random.rand(100,3).tolist()
         with tempfile.NamedTemporaryFile(mode='w', suffix = '.json') as json_file:
             sf.save(json_file.name, format='json')
             with open(json_file.name) as json_data:

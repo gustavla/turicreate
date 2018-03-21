@@ -3008,8 +3008,25 @@ class SArrayTest(unittest.TestCase):
         d3 = a3[2:4,:2]
         d4 = a4[:2,2:4]
 
-        originals = [a1,a2,a3,a4,b1,b2,b3,b4,c1,c2,c3,c4,d1,d2,d3,d4]
-        sa = SArray(originals)
+        originals = [
+            a1.tolist(),
+            a2.tolist(),
+            a3.tolist(),
+            a4.tolist(),
+            b1.tolist(),
+            b2.tolist(),
+            b3.tolist(),
+            b4.tolist(),
+            c1.tolist(),
+            c2.tolist(),
+            c3.tolist(),
+            c4.tolist(),
+            d1.tolist(),
+            d2.tolist(),
+            d3.tolist(),
+            d4.tolist(),
+        ]
+        sa = SArray(originals, dtype=np.ndarray)
         l = list(sa)
 
         # check roundtriping of SArray ndarray type
@@ -3036,11 +3053,11 @@ class SArrayTest(unittest.TestCase):
     def test_ndarray_ops(self):
         a1 = np.array([[1,2,3,4],[5,6,7,8]], 'd')
         a2 = a1.reshape(4,2)
-        sa = SArray([a1,a2])
+        sa = SArray([a1.tolist(), a2.tolist()], dtype=np.ndarray)
 
         b1 = np.array([[2,1,4,3],[6,5,8,7]], 'd')
         b2 = a1.reshape(4,2)
-        sb = SArray([b1,b2])
+        sb = SArray([b1.tolist(), b2.tolist()], dtype=np.ndarray)
 
         res = sa + sb
         self.assertTrue(np.array_equal(res[0], a1+b1))

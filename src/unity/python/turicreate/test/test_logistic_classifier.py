@@ -37,7 +37,7 @@ def binary_classification_integer_target(cls):
     n, d = 100, 10
     cls.sf = tc.SFrame()
     for i in range(d):
-        cls.sf.add_column(tc.SArray(np.random.rand(n)), inplace=True)
+        cls.sf.add_column(tc.SArray(np.random.rand(n).tolist()), inplace=True)
     target = np.random.randint(2, size=n)
     target[0] = 0
     target[1] = 1
@@ -159,7 +159,7 @@ def multiclass_integer_target(cls):
     n, d = 100, 10
     cls.sf = tc.SFrame()
     for i in range(d):
-        cls.sf.add_column(tc.SArray(np.random.rand(n)), inplace=True)
+        cls.sf.add_column(tc.SArray(np.random.rand(n).tolist()), inplace=True)
     target = np.random.randint(3, size=n)
     target[0] = 0
     target[1] = 1
@@ -185,7 +185,7 @@ def multiclass_integer_target(cls):
     cls.sm_metrics = {
       "accuracy"        : accuracy_score(target, list(cls.yhat_class)),
       "auc"             : tc.toolkits.evaluation.auc(
-                              tc.SArray(target), tc.SArray(raw_predictions)),
+                              tc.SArray(target.tolist()), tc.SArray(raw_predictions.tolist())),
       "confusion_matrix": cls.sm_cf_matrix.flatten(),
       "f1_score"        : f1_score(target, list(cls.yhat_class),
                                    average = 'macro'),
@@ -195,7 +195,7 @@ def multiclass_integer_target(cls):
       "recall"          : recall_score(target, list(cls.yhat_class),
                                        average = 'macro'),
       "roc_curve"       : tc.toolkits.evaluation.roc_curve(
-                              tc.SArray(target), tc.SArray(raw_predictions))
+                              tc.SArray(target.tolist()), tc.SArray(raw_predictions.tolist()))
       }
 
 
@@ -555,7 +555,7 @@ class LogisticRegressionCreateTest(unittest.TestCase):
         self.sf = tc.SFrame()
 
         for i in range(d):
-            self.sf.add_column(tc.SArray(np.random.rand(n)), inplace=True)
+            self.sf.add_column(tc.SArray(np.random.rand(n).tolist()), inplace=True)
 
         target = np.random.randint(2, size=n)
         target[0] = 0
@@ -686,7 +686,7 @@ class ListCategoricalLogisticRegressionTest(unittest.TestCase):
 
         # float columns
         for i in range(d):
-            self.sf.add_column(tc.SArray(np.random.rand(n)), inplace=True)
+            self.sf.add_column(tc.SArray(np.random.rand(n).tolist()), inplace=True)
 
         # categorical column
         species = np.array(['cat', 'dog', 'foosa'])
@@ -778,7 +778,7 @@ class CategoricalLogisticRegressionTest(unittest.TestCase):
 
         # float columns
         for i in range(d):
-            self.sf.add_column(tc.SArray(np.random.rand(n)), inplace=True)
+            self.sf.add_column(tc.SArray(np.random.rand(n).tolist()), inplace=True)
 
         # categorical column
         species = np.array(['cat', 'dog', 'foosa'])
@@ -919,7 +919,7 @@ class VectorLogisticRegressionTest(unittest.TestCase):
     n, d = 100, 3
     self.sf = tc.SFrame()
     for i in range(d):
-        self.sf.add_column(tc.SArray(np.random.rand(n)), inplace=True)
+        self.sf.add_column(tc.SArray(np.random.rand(n).tolist()), inplace=True)
     target = np.random.randint(2, size=n)
     target[0] = 0
     target[1] = 1
@@ -1009,7 +1009,7 @@ class DictLogisticRegressionTest(unittest.TestCase):
 
     # float columns
     for i in range(d):
-        self.sf.add_column(tc.SArray(np.random.rand(n)), inplace=True)
+        self.sf.add_column(tc.SArray(np.random.rand(n).tolist()), inplace=True)
 
     # target column
     target = np.random.randint(2, size=n)
@@ -1345,7 +1345,7 @@ class ValidationSetLogisticClassifierTest(unittest.TestCase):
         n, d = 100, 10
         self.sf = tc.SFrame()
         for i in range(d):
-            self.sf.add_column(tc.SArray(np.random.randn(n)), inplace=True)
+            self.sf.add_column(tc.SArray(np.random.randn(n).tolist()), inplace=True)
         target = np.random.randint(2, size=n)
         target[0] = 0
         target[1] = 1
@@ -1396,7 +1396,7 @@ class TestStringTarget(unittest.TestCase):
         n, d = 1000, 100
         sf = tc.SFrame()
         for i in range(d):
-                sf.add_column(tc.SArray(np.random.rand(n)), inplace=True)
+                sf.add_column(tc.SArray(np.random.rand(n).tolist()), inplace=True)
                 target = np.random.randint(2, size=n)
                 sf['target'] = target
 

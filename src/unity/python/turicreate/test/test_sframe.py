@@ -1097,7 +1097,7 @@ class SFrameTest(unittest.TestCase):
             sf['key'] = [1] * m
             sf['value'] = values
             sf['vector_values'] = vector_values
-            sf['nd_values'] = nd_values 
+            sf['nd_values'] = SArray([x.tolist() for x in nd_values], dtype=np.ndarray)
             sf.__materialize__()
             built_ins = [aggregate.COUNT(), aggregate.SUM('value'),
                     aggregate.AVG('value'), aggregate.MIN('value'),
